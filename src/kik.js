@@ -1,11 +1,12 @@
 var HttpClient = require('scoped-http-client');
+var crypto = require('crypto');
 
 module.exports = function(credentials) {
-  if (!credentials || !credentials.botId || !credentials.apiKey) {
-    throw new Error('No bot id or api key specified');
+  if (!credentials || !credentials.botId || !credentials.apiKey || !credentials.username) {
+    throw new Error('No bot id or api key or username specified');
   }
 
-  var host = process.env.BOTMETRICS_API_HOST || 'https://www.getbotmetrics.com',
+  var host = process.env.BOTMETRICS_API_HOST || 'http://localhost:3000',
       url  = host + "/bots/" + credentials.botId + "/events",
       http = HttpClient.create(url),
       Kik = {};
@@ -19,6 +20,23 @@ module.exports = function(credentials) {
     }
 
     sendRequest(event, next);
+  }
+
+  Kik.send = function(msg, next) {
+    crypto.randomBytes(16, function(err, buffer) {
+      var event = JSON.stringify([{
+        from: credentials.username,
+        participants: [msg.to],
+        id: buffer.toString('hex'),
+        chatId: msg.chatId,
+        body: msg.body,
+        type: msg.type,
+        timestamp: new Date().getTime()
+      }])
+
+      sendRequest(event, next)
+    });
+
   }
 
   function sendRequest(event, next) {

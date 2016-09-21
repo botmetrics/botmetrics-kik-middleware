@@ -26,7 +26,8 @@ let http = require('http');
 let Bot  = require('@kikinteractive/kik');
 let Kik = require('./index').Kik({
   botId: process.env.botId,
-  apiKey: process.env.apiKey
+  apiKey: process.env.apiKey,
+  username: process.env.KIK_USERNAME
 });
 
 // Configure the bot API endpoint, details for your bot
@@ -36,6 +37,7 @@ let bot = new Bot({
     baseUrl: 'https://mevbot.ngrok.io/kik'
 });
 bot.use(Kik.receive);
+bot.outgoing(Kik.send);
 
 bot.updateBotConfiguration();
 
