@@ -4,7 +4,7 @@
   "description": "Kik node Middleware for Botmetrics",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "./script/test"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "homepage": "https://github.com/botmetrics/botmetrics-kik-middleware#readme",
   "dependencies": {
     "dotenv": "2.0.0",
-    "@kikinteractive/kik": "2.0.10",
+    "@kikinteractive/kik": "2.0.11",
     "scoped-http-client": "0.11.0"
   },
   "devDependencies": {
