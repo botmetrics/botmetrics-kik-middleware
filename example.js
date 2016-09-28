@@ -1,12 +1,10 @@
-require('dotenv').config();
-
-if (!process.env.botId) {
-  console.log('Error: Specify botId in environment');
+if (!process.env.BOTMETRICS_BOT_ID) {
+  console.log('Error: Specify BOTMETRICS_BOT_ID in your environment');
   process.exit(1);
 }
 
-if (!process.env.apiKey) {
-  console.log('Error: Specify apiKey in environment');
+if (!process.env.BOTMETRICS_API_KEY) {
+  console.log('Error: Set BOTMETRICS_API_KEY in your environment');
   process.exit(1);
 }
 
@@ -19,14 +17,20 @@ if (!process.env.KIK_API_KEY) {
   console.log('Error: Specify KIK_API_KEY in environment');
   process.exit(1);
 }
+
+if (!process.env.KIK_WEBHOOK_HOST) {
+  console.log('Error: Specify KIK_WEBHOOK_HOST in environment');
+  process.exit(1);
+}
+
 'use strict';
 
 let util = require('util');
 let http = require('http');
 let Bot  = require('@kikinteractive/kik');
 let Kik = require('./index').Kik({
-  botId: process.env.botId,
-  apiKey: process.env.apiKey,
+  botId: process.env.BOTMETRICS_BOT_ID,
+  apiKey: process.env.BOTMETRICS_API_KEY,
   username: process.env.KIK_USERNAME
 });
 
@@ -34,18 +38,23 @@ let Kik = require('./index').Kik({
 let bot = new Bot({
     username: process.env.KIK_USERNAME,
     apiKey: process.env.KIK_API_KEY,
-    baseUrl: 'https://mevbot.ngrok.io/kik'
+    baseUrl: process.env.KIK_WEBHOOK_HOST,
 });
+
 bot.use(Kik.receive);
 bot.outgoing(Kik.send);
 
 bot.updateBotConfiguration();
 
 bot.onTextMessage((message) => {
-    message.reply(message.body);
+  message.reply("You said: " + message.body);
 });
+
+var port = (process.env.PORT || 3000);
+
+console.log("listening for messages on port " + port);
 
 // Set up your server and start listening
 let server = http
     .createServer(bot.incoming())
-    .listen(process.env.port || 3000);
+    .listen(port);
