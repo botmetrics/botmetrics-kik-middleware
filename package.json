@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/botmetrics/botmetrics-kik-middleware#readme",
   "dependencies": {
-    "dotenv": "2.0.0",
     "@kikinteractive/kik": "2.0.11",
     "scoped-http-client": "0.11.0"
   },
