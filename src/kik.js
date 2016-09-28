@@ -6,7 +6,7 @@ module.exports = function(credentials) {
     throw new Error('No bot id or api key or username specified');
   }
 
-  var host = process.env.BOTMETRICS_API_HOST || 'http://localhost:3000',
+  var host = process.env.BOTMETRICS_API_HOST || 'https://www.getbotmetrics.com',
       url  = host + "/bots/" + credentials.botId + "/events",
       http = HttpClient.create(url),
       Kik = {};

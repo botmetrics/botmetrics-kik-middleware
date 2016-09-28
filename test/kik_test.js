@@ -66,8 +66,7 @@ describe('.receive', function() {
     };
 
     params = JSON.stringify({ event: JSON.stringify([message._state]), format: 'json' })
-    console.log(params);
-    scope = nock('http://localhost:3000', {
+    scope = nock('https://www.getbotmetrics.com', {
       reqheaders: {
         'Authorization': 'api-key',
         'Content-Type': 'application/json'
@@ -128,8 +127,7 @@ describe('.send', function() {
     };
 
     params = JSON.stringify({ event: JSON.stringify([message._state]), format: 'json' })
-    console.log(params);
-    scope = nock('http://localhost:3000', {
+    scope = nock('https://www.getbotmetrics.com', {
       reqheaders: {
         'Authorization': 'api-key',
         'Content-Type': 'application/json'
