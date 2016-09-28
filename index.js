@@ -1,1 +1,1 @@
-module.exports.Kik = require('./src/kik');
+module.exports.BotmetricsMiddleware = require('./src/botmetrics_middleware');

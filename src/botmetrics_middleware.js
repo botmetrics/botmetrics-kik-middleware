@@ -9,9 +9,9 @@ module.exports = function(credentials) {
   var host = process.env.BOTMETRICS_API_HOST || 'https://www.getbotmetrics.com',
       url  = host + "/bots/" + credentials.botId + "/events",
       http = HttpClient.create(url),
-      Kik = {};
+      BotmetricsMiddleware = {};
 
-  Kik.receive = function(msg, next) {
+  BotmetricsMiddleware.receive = function(msg, next) {
     var event;
     if(Array.isArray(msg._state)) {
       event = JSON.stringify(msg._state);
@@ -22,7 +22,7 @@ module.exports = function(credentials) {
     sendRequest(event, next);
   }
 
-  Kik.send = function(msg, next) {
+  BotmetricsMiddleware.send = function(msg, next) {
     crypto.randomBytes(16, function(err, buffer) {
       var event = JSON.stringify([{
         from: credentials.username,
@@ -36,7 +36,6 @@ module.exports = function(credentials) {
 
       sendRequest(event, next)
     });
-
   }
 
   function sendRequest(event, next) {
@@ -53,5 +52,5 @@ module.exports = function(credentials) {
          });
   }
 
-  return Kik
+  return BotmetricsMiddleware;
 }

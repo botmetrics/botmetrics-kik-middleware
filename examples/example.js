@@ -28,7 +28,7 @@ if (!process.env.KIK_WEBHOOK_HOST) {
 let util = require('util');
 let http = require('http');
 let Bot  = require('@kikinteractive/kik');
-let Kik = require('../index').Kik({
+let BotmetricsMiddleware = require('../index').BotmetricsMiddleware({
   botId: process.env.BOTMETRICS_BOT_ID,
   apiKey: process.env.BOTMETRICS_API_KEY,
   username: process.env.KIK_USERNAME
@@ -41,8 +41,8 @@ let bot = new Bot({
     baseUrl: process.env.KIK_WEBHOOK_HOST,
 });
 
-bot.use(Kik.receive);
-bot.outgoing(Kik.send);
+bot.use(BotmetricsMiddleware.receive);
+bot.outgoing(BotmetricsMiddleware.send);
 
 bot.updateBotConfiguration();
 
